@@ -37,7 +37,40 @@ function refreshTeams() {
   $("teams").replaceChildren(
     ...teams.map(name => {
       const item = document.createElement("li");
-      item.textContent = name;
+
+      const label = document.createElement("span");
+      label.textContent = name;
+      label.style.flex = "1";
+      label.style.minWidth = "0";
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "Eliminar";
+      remove.setAttribute("aria-label", "Eliminar equipo " + name);
+      remove.style.padding = "6px 10px";
+      remove.style.fontSize = "12px";
+
+      remove.onclick = () => {
+        if (state !== "idle") {
+          $("error").textContent =
+            "Finaliza la partida antes de eliminar equipos.";
+          return;
+        }
+
+        teams = teams.filter(team => team !== name);
+
+        try {
+          localStorage.setItem("primero-teams", JSON.stringify(teams));
+        } catch {
+          $("storage").textContent =
+            "No se han podido guardar los cambios en este navegador.";
+        }
+
+        $("error").textContent = "";
+        refreshTeams();
+      };
+
+      item.append(label, remove);
       return item;
     })
   );
