@@ -1,4 +1,91 @@
 <!doctype html>
-<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Primero · Concurso de pulsadores</title><style>
+<html lang="ca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>InterEnginy · Concurs de polsadors</title><style>
 :root{font-family:Inter,Segoe UI,Arial,sans-serif;color:#f3f4f7;background:#101116;color-scheme:dark}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #383a44;border-radius:10px;padding:12px 18px;color:#f3f4f7;background:#282a34;font-weight:600}button:hover:not(:disabled){background:#373a47}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #cab5ff;outline-offset:3px}.primary{background:#d5c4ff;color:#211334;border:0}.primary:hover:not(:disabled){background:#e5dbff}header{max-width:1160px;margin:auto;padding:30px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2b35}.logo{font-size:24px;font-weight:800;letter-spacing:-1px}.logo span{color:#d5c4ff}.badge{font-size:12px;color:#d5c4ff;border:1px solid #514364;padding:8px 12px;border-radius:30px}main{max-width:1160px;margin:auto;padding:44px 28px}h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.5px;margin:10px 0 14px}p{color:#a9aab9;line-height:1.6}h2{font-size:19px;margin:0 0 22px}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;color:#c2abdF;font-weight:700}.layout{display:grid;grid-template-columns:320px 1fr;gap:24px;margin-top:36px}.panel{background:#191a22;border:1px solid #2c2d38;border-radius:18px;padding:24px}label{display:block;font-size:13px;color:#bfc0ce;margin-bottom:8px}input,select{width:100%;background:#101116;color:#f3f4f7;border:1px solid #3b3d4a;border-radius:9px;padding:13px;margin-bottom:12px}form button{width:100%}.subtle{font-size:12px;color:#9799ab}#teams{padding:0;list-style:none;margin:22px 0}#teams li{padding:12px 0;border-bottom:1px solid #2c2d38;overflow-wrap:anywhere;display:flex;gap:12px;align-items:center}#teams li:before{content:' ';width:7px;height:7px;background:#d5c4ff;border-radius:50%;flex-shrink:0}.selection{display:grid;grid-template-columns:1fr 1fr;gap:18px}#arena{margin-top:24px}.status{padding:24px 8px 28px;text-align:center}#result{font-size:clamp(24px,4vw,36px);font-weight:700;color:#f3f4f7;overflow-wrap:anywhere;margin:12px 0}#detail{font-size:14px;margin:0}.buzzers{display:grid;grid-template-columns:1fr 1fr;gap:18px}.team-card{border:1px solid #383a49;background:#14151c;border-radius:14px;padding:22px 14px;text-align:center;min-width:0}.team-name{display:block;overflow-wrap:anywhere;font-size:20px;font-weight:700;margin:12px 0}.orb{width:62px;height:62px;border-radius:50%;margin:20px auto;background:#363847;border:8px solid #252733}.team-card.winner.one{border-color:#fb917d;background:#30211f}.team-card.winner.two{border-color:#85baff;background:#1d2837}.winner.one .orb{background:#fb917d;border-color:#683f37}.winner.two .orb{background:#85baff;border-color:#344b6b}kbd{background:#333540;border:1px solid #4c4e5c;border-radius:5px;padding:3px 8px;font-size:12px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.actions .primary{flex:1}.error{color:#ffb29e;font-size:13px;min-height:20px}footer{margin-top:25px;font-size:12px;color:#9092a3} [hidden]{display:none!important}@media(max-width:760px){header{padding:22px 18px}main{padding:28px 18px}.layout{grid-template-columns:1fr}.panel{padding:20px}.badge{font-size:10px}.selection{gap:12px}.team-card button{padding:10px 8px;font-size:13px}}
-</style></head><body><header><div class="logo">InterEnginy<span>26-27</span></div><span class="badge">MODO PRUEBA · SIN ESP32</span></header><main><span class="eyebrow">Dos equipos. Un solo turno.</span><h1>Que hable el más rápido.</h1><p>Registra a los equipos, prepara el duelo y descubre quién pulsa primero.</p><div class="layout"><aside class="panel"><h2>01 · Equips</h2><form id="form"><label for="name">Nombre del equipo</label><input id="name" placeholder="Ej. Los Relámpagos" maxlength="40" autocomplete="off" required><button type="submit">+ Registrar equipo</button></form><div id="error" class="error" role="alert"></div><ul id="teams"></ul><p id="empty" class="subtle">Afegir com a mínim dos equips per a crear una partida.</p><p class="subtle" id="storage">Los nombres se guardan en este navegador.</p></aside><section class="panel"><h2>02 · Partida</h2><div id="setup"><div class="selection"><div><label for="left">Polsador 1 · Tecla A</label><select id="left" aria-label="Equip del polsador 1"></select></div><div><label for="right">Polsador 2 · Tecla L</label><select id="right" aria-label="Equip del polsador 2"></select></div></div><button class="primary" id="create">Crear partida</button><p class="subtle">Cada equipo debe tener un pulsador distinto.</p></div><div id="arena" hidden><div class="status" role="status" aria-live="polite"><span class="eyebrow" id="phase">Partida preparada</span><div id="result">Todo listo para empezar</div><p id="detail">Los pulsadores están bloqueados hasta empezar.</p></div><div class="buzzers"><div id="card1" class="team-card one"><span class="subtle">PULSADOR 1</span><strong id="name1" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz1">Simular pulsación <kbd>A</kbd></button></div><div id="card2" class="team-card two"><span class="subtle">PULSADOR 2</span><strong id="name2" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz2">Simular pulsación <kbd>L</kbd></button></div></div><div class="actions"><button id="start" class="primary">Empezar partida</button><button id="end">Finalizar partida</button></div></div><div id="placeholder" class="status"><div class="orb" aria-hidden="true"></div><p>Tu próxima partida empieza aquí.</p></div></section></div><footer>Prueba con A y L o con los botones en pantalla. Gana el primer evento recibido por el navegador. La conexión a los pulsadores físicos se añadirá después.</footer></main><script src="app.js?v=2"></script></body></html>
+</style></head><body><header><div class="logo">InterEnginy<span>26-27</span></div><span class="badge">MODE DE PROVA · SENSE ESP32</span></header><main><span class="eyebrow">Dos equips. Un sol torn.</span><h1>Que parli el més ràpid.</h1><p>Registra els equips, prepara la partida i descobreix qui prem primer.</p><div class="layout"><aside class="panel"><h2>01 · Equips</h2><form id="form"><label for="name">Nom de l’equip</label><input id="name" placeholder="Ex.: Els Llampecs" maxlength="40" autocomplete="off" required><button type="submit">+ Registrar equip</button></form><div id="error" class="error" role="alert"></div><ul id="teams"></ul><p id="empty" class="subtle">Afegeix com a mínim dos equips per crear una partida.</p><p class="subtle" id="storage">Els noms es desen en aquest navegador.</p></aside><section class="panel"><h2>02 · Partida</h2><div id="setup"><div class="selection"><div><label for="left">Polsador 1 · Tecla A</label><select id="left" aria-label="Equip del polsador 1"></select></div><div><label for="right">Polsador 2 · Tecla L</label><select id="right" aria-label="Equip del polsador 2"></select></div></div><button class="primary" id="create">Crear partida</button><p class="subtle">Cada equip ha de tenir un polsador diferent.</p></div><div id="arena" hidden><div class="status" role="status" aria-live="polite"><span class="eyebrow" id="phase">Partida preparada</span><div id="result">Tot a punt per començar</div><p id="detail">Els polsadors estan bloquejats fins que comenci la partida.</p></div><div class="buzzers"><div id="card1" class="team-card one"><span class="subtle">POLSADOR 1</span><strong id="name1" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz1">Simular pulsació <kbd>A</kbd></button></div><div id="card2" class="team-card two"><span class="subtle">POLSADOR 2</span><strong id="name2" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz2">Simular pulsació <kbd>L</kbd></button></div></div><div class="actions"><button id="start" class="primary">Començar partida</button><button id="end">Finalitzar partida</button></div></div><div id="placeholder" class="status"><div class="orb" aria-hidden="true"></div><p>La teva pròxima partida comença aquí.</p></div></section></div><footer>Fes la prova amb A i L o amb els botons de la pantalla. Guanya la primera pulsació rebuda pel navegador. La connexió amb els polsadors físics s’afegirà més endavant.</footer></main><script src="app.js?v=ca-1"></script>
+<section class="panel" style="max-width:1104px;margin:0 auto 28px">
+  <h2>Connexió amb els polsadors</h2>
+  <p>Introdueix la contrasenya de l’usuari web_concurso.</p>
+  <form id="mqtt-form">
+    <label for="mqtt-password">Contrasenya d’EMQX</label>
+    <input id="mqtt-password" type="password" placeholder="Contrasenya d’EMQX" required>
+    <button id="mqtt-connect" type="submit">Connectar</button>
+    <button id="mqtt-disconnect" type="button" disabled>Desconnectar</button>
+  </form>
+  <p id="mqtt-status" role="status">Sense connexió.</p>
+  <p class="subtle">Aquesta prova comprova la connexió amb el servidor. Encara no rep pulsacions de la placa.</p>
+</section>
+<script src="https://unpkg.com/mqtt@5.10.4/dist/mqtt.min.js"></script>
+<script>
+(() => {
+  const formulari = document.getElementById("mqtt-form");
+  const contrasenya = document.getElementById("mqtt-password");
+  const connectar = document.getElementById("mqtt-connect");
+  const desconnectar = document.getElementById("mqtt-disconnect");
+  const estat = document.getElementById("mqtt-status");
+  let client = null;
+  let temporitzador = null;
+
+  function aturar(missatge) {
+    clearTimeout(temporitzador);
+    const anterior = client;
+    client = null;
+    if (anterior) anterior.end(true);
+    connectar.disabled = false;
+    desconnectar.disabled = true;
+    estat.textContent = missatge;
+  }
+
+  formulari.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (client) return;
+    if (!window.mqtt) {
+      estat.textContent = "No s’ha carregat el mòdul de connexió. Recarrega la pàgina i comprova Internet.";
+      return;
+    }
+
+    connectar.disabled = true;
+    desconnectar.disabled = false;
+    estat.textContent = "Connectant amb EMQX…";
+
+    try {
+      const connexio = mqtt.connect(
+        "wss://y8daa66d.ala.eu-central-1.emqxsl.com:8084/mqtt",
+        {
+          username: "web_concurso",
+          password: contrasenya.value,
+          clientId: "web_" + crypto.randomUUID(),
+          clean: true,
+          reconnectPeriod: 0,
+          connectTimeout: 10000
+        }
+      );
+      client = connexio;
+      temporitzador = setTimeout(() => {
+        if (client === connexio) {
+          aturar("No s’ha pogut connectar. Comprova Internet i l’estat del servidor.");
+        }
+      }, 12000);
+
+      connexio.on("connect", () => {
+        if (client !== connexio) return;
+        clearTimeout(temporitzador);
+        contrasenya.value = "";
+        estat.textContent = "Connectat a EMQX. La connexió amb la placa encara no s’ha comprovat.";
+      });
+      connexio.on("error", () => {
+        if (client !== connexio) return;
+        aturar("Error de connexió. Comprova la contrasenya i l’estat del servidor.");
+      });
+      connexio.on("close", () => {
+        if (client !== connexio) return;
+        aturar("Connexió tancada. Prem Connectar per tornar-ho a provar.");
+      });
+    } catch {
+      aturar("No s’ha pogut iniciar la connexió. Recarrega la pàgina.");
+    }
+  });
+  desconnectar.addEventListener("click", () => aturar("Desconnectat."));
+})();
+</script>
+
+</body></html>
