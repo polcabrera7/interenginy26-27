@@ -60,7 +60,19 @@ function renderHistory() {
     detail.textContent = item.rounds.length
       ? item.rounds.map((winner, i) => "Ronda " + (i + 1) + ": " + item.teams[winner] + " ha premut primer").join(" · ")
       : "Sense pulsacions registrades.";
-    row.append(label, input, detail);
+    const remove = document.createElement("button");
+remove.type = "button";
+remove.textContent = "Eliminar partida";
+remove.setAttribute("aria-label", "Eliminar partida: " + item.title);
+
+remove.onclick = () => {
+  history = history.filter(entry => entry.id !== item.id);
+  saveHistory();
+  renderHistory();
+  publishPublic();
+};
+
+row.append(label, input, detail, remove);
     $("history-admin").append(row);
   });
 }
