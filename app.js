@@ -1,4 +1,4 @@
-"use strict";
+    "use strict";
 
 const $ = id => document.getElementById(id);
 
@@ -8,6 +8,30 @@ let match = [];
 let winner = null;
 
 const held = new Set();
+let publicWindow = null;
+
+function publishPublic() {
+  if (!publicWindow || publicWindow.closed) return;
+  publicWindow.postMessage({
+    type: "interenginy-state",
+    state,
+    teams: [...match],
+    winner
+  }, location.origin);
+}
+
+$("open-public").onclick = () => {
+  publicWindow = window.open("public.html", "interenginy-public", "popup,width=1200,height=800");
+  $("public-help").textContent = publicWindow
+    ? "Mou la finestra al projector. Després torna al panell per començar la ronda."
+    : "El navegador ha bloquejat la finestra. Permet les finestres emergents i torna-ho a provar.";
+};
+
+window.addEventListener("message", event => {
+  if (event.origin !== location.origin || event.source !== publicWindow) return;
+  if (event.data?.type === "interenginy-request") publishPublic();
+});
+
 
 // Recuperar els equips desats en aquest navegador.
 try {
@@ -53,7 +77,7 @@ function refreshTeams() {
       remove.onclick = () => {
         if (state !== "idle") {
           $("error").textContent =
-            "Finalitza la partida abans dâ€™eliminar equips.";
+            "Finalitza la partida abans d’eliminar equips.";
           return;
         }
 
@@ -63,7 +87,7 @@ function refreshTeams() {
           localStorage.setItem("primero-teams", JSON.stringify(teams));
         } catch {
           $("storage").textContent =
-            "No sâ€™han pogut desar els canvis en aquest navegador.";
+            "No s’han pogut desar els canvis en aquest navegador.";
         }
 
         $("error").textContent = "";
@@ -106,7 +130,7 @@ $("form").addEventListener("submit", event => {
   );
 
   if (exists) {
-    $("error").textContent = "Aquest equip ja estÃ  registrat.";
+    $("error").textContent = "Aquest equip ja està registrat.";
     return;
   }
 
@@ -116,7 +140,7 @@ $("form").addEventListener("submit", event => {
     localStorage.setItem("primero-teams", JSON.stringify(teams));
   } catch {
     $("storage").textContent =
-      "Els noms nomÃ©s es conservaran mentre aquesta pÃ gina continuÃ¯ oberta.";
+      "Els noms només es conservaran mentre aquesta pàgina continuï oberta.";
   }
 
   $("name").value = "";
@@ -129,6 +153,7 @@ $("right").onchange = validate;
 
 // Actualitzar la pantalla.
 function render() {
+  publishPublic();
   $("buzz1").disabled = state !== "armed";
   $("buzz2").disabled = state !== "armed";
 
@@ -139,19 +164,19 @@ function render() {
     state === "armed" || state === "waiting";
 
   const buttonTexts = {
-    ready: "ComenÃ§ar partida",
+    ready: "Començar partida",
     won: "Nova ronda",
     paused: "Reprendre ronda",
-    waiting: "Deixeu anar A i Lâ€¦",
+    waiting: "Deixeu anar A i L…",
     armed: "Ronda en joc"
   };
 
-  $("start").textContent = buttonTexts[state] || "ComenÃ§ar partida";
+  $("start").textContent = buttonTexts[state] || "Començar partida";
 
   const messages = {
     ready: [
       "Partida preparada",
-      "Tot a punt per comenÃ§ar",
+      "Tot a punt per començar",
       "Els polsadors estan bloquejats fins que comenci la partida."
     ],
     waiting: [
@@ -162,17 +187,17 @@ function render() {
     armed: [
       "Ronda en joc",
       "Ara!",
-      "Esperant la primera pulsaciÃ³."
+      "Esperant la primera pulsació."
     ],
     won: [
-      "Primer a prÃ©mer",
+      "Primer a prémer",
       match[winner] || "",
       "Polsadors bloquejats. Inicia una altra ronda quan vulguis."
     ],
     paused: [
       "Ronda pausada",
-      "La pÃ gina ha deixat dâ€™estar activa",
-      "ReprÃ¨n la ronda quan tots dos equips estiguin preparats."
+      "La pàgina ha deixat d’estar activa",
+      "Reprèn la ronda quan tots dos equips estiguin preparats."
     ]
   };
 
@@ -222,7 +247,7 @@ $("start").onclick = () => {
   arm();
 };
 
-// NomÃ©s sâ€™accepta la primera pulsaciÃ³ de cada ronda.
+// Només s’accepta la primera pulsació de cada ronda.
 function buzz(team) {
   if (state !== "armed") return;
 
@@ -242,9 +267,10 @@ $("end").onclick = () => {
   $("arena").hidden = true;
   $("setup").hidden = false;
   $("placeholder").hidden = false;
+  publishPublic();
 };
 
-// SimulaciÃ³ amb les tecles A i L.
+// Simulació amb les tecles A i L.
 document.addEventListener("keydown", event => {
   if (!["KeyA", "KeyL"].includes(event.code)) return;
 
