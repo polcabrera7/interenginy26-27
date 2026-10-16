@@ -1,4 +1,4 @@
-    "use strict";
+"use strict";
 
 const $ = id => document.getElementById(id);
 
@@ -9,6 +9,68 @@ let winner = null;
 
 const held = new Set();
 let publicWindow = null;
+let matchTitle = "";
+let rounds = [];
+let history = [];
+try {
+  const saved = JSON.parse(localStorage.getItem("interenginy-history") || "[]");
+  if (Array.isArray(saved)) history = saved.filter(item =>
+    item && typeof item.id === "string" && typeof item.title === "string" &&
+    Array.isArray(item.teams) && item.teams.length === 2 &&
+    item.teams.every(name => typeof name === "string") &&
+    Array.isArray(item.rounds) && item.rounds.every(n => n === 0 || n === 1) &&
+    typeof item.finishedAt === "string"
+  );
+} catch {}
+
+function saveHistory() {
+  try {
+    localStorage.setItem("interenginy-history", JSON.stringify(history));
+    $("history-warning").textContent = "";
+  } catch {
+    $("history-warning").textContent =
+      "No s’ha pogut desar l’historial. Es conservarà només mentre aquesta pàgina estigui oberta.";
+  }
+}
+
+function renderHistory() {
+  $("history-admin").replaceChildren();
+  if (!history.length) {
+    $("history-admin").textContent = "Encara no hi ha partides finalitzades.";
+    return;
+  }
+  [...history].reverse().forEach(item => {
+    const row = document.createElement("div");
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.id = "history-" + item.id;
+    label.htmlFor = input.id;
+    label.textContent = item.teams.join(" · ");
+    input.value = item.title;
+    input.maxLength = 80;
+    input.setAttribute("aria-label", "Nom de la partida: " + item.title);
+    input.onchange = () => {
+      item.title = input.value.trim() || item.title;
+      input.value = item.title;
+      saveHistory();
+      publishPublic();
+    };
+    const detail = document.createElement("p");
+    detail.className = "subtle";
+    detail.textContent = item.rounds.length
+      ? item.rounds.map((winner, i) => "Ronda " + (i + 1) + ": " + item.teams[winner] + " ha premut primer").join(" · ")
+      : "Sense pulsacions registrades.";
+    row.append(label, input, detail);
+    $("history-admin").append(row);
+  });
+}
+
+$("match-title").addEventListener("input", () => {
+  if (state === "idle") return;
+  matchTitle = $("match-title").value.trim() || "Partida sense nom";
+  publishPublic();
+});
+
 
 function publishPublic() {
   if (!publicWindow || publicWindow.closed) return;
@@ -16,6 +78,8 @@ function publishPublic() {
     type: "interenginy-state",
     state,
     teams: [...match],
+    title: matchTitle,
+    history,
     winner
   }, location.origin);
 }
@@ -215,6 +279,9 @@ $("create").onclick = () => {
   if ($("create").disabled) return;
 
   match = [$("left").value, $("right").value];
+  matchTitle = $("match-title").value.trim() || "Partida " + (history.length + 1);
+  $("match-title").value = matchTitle;
+  rounds = [];
   winner = null;
   state = "ready";
 
@@ -252,6 +319,7 @@ function buzz(team) {
   if (state !== "armed") return;
 
   winner = team;
+  rounds.push(team);
   state = "won";
   render();
 }
@@ -260,6 +328,19 @@ $("buzz1").onclick = () => buzz(0);
 $("buzz2").onclick = () => buzz(1);
 
 $("end").onclick = () => {
+  if (state === "idle") return;
+  history.push({
+    id: crypto.randomUUID(),
+    title: matchTitle,
+    teams: [...match],
+    rounds: [...rounds],
+    finishedAt: new Date().toISOString()
+  });
+  saveHistory();
+  renderHistory();
+  matchTitle = "";
+  rounds = [];
+  $("match-title").value = "";
   state = "idle";
   winner = null;
   match = [];
@@ -303,3 +384,5 @@ window.addEventListener("blur", () => {
 });
 
 refreshTeams();
+
+renderHistory();
