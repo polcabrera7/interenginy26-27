@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>InterEnginy · Pantalla del públic</title>
+<style>
+:root{font-family:Segoe UI,Arial,sans-serif;color:#f3f4f7;background:#101116;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;display:flex;flex-direction:column;padding:clamp(20px,4vw,64px)}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;color:#d5c4ff;font-weight:700;font-size:24px}
+button{background:#282a34;color:inherit;border:1px solid #555;border-radius:10px;padding:10px;cursor:pointer}
+button:focus-visible{outline:3px solid #d5c4ff}
+main{flex:1;display:flex;flex-direction:column;justify-content:center;text-align:center}
+#phase{color:#d5c4ff;text-transform:uppercase;letter-spacing:3px;font-size:clamp(16px,2vw,26px)}
+h1{font-size:clamp(32px,5vw,76px);margin:20px 0;overflow-wrap:anywhere}
+#detail{color:#bfc0ce;font-size:clamp(18px,2vw,26px)}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin:30px 0}
+article{border:3px solid #383a49;border-radius:24px;padding:clamp(20px,4vw,60px);background:#191a22;min-width:0}
+article span{font-size:18px;color:#bfc0ce}
+h2{font-size:clamp(28px,4vw,60px);overflow-wrap:anywhere;margin:24px 0}
+.mark{font-size:clamp(20px,3vw,40px);min-height:1.3em;font-weight:bold}
+#team1.winner{background:#40241f;border-color:#fb917d}
+#team2.winner{background:#1d3048;border-color:#85baff}
+footer{color:#999;font-size:14px;text-align:center}
+[hidden]{display:none!important}
+@media(max-width:600px){.teams{gap:12px}header{font-size:18px}article{padding:16px}}
+</style>
+</head>
+<body>
+<header><span>InterEnginy 26-27</span><button id="fullscreen">Pantalla completa</button></header>
+<main aria-live="polite">
+<p id="phase">Pantalla del públic</p>
+<h1 id="result">Esperant l’organitzador</h1>
+<p id="detail">Obre aquesta pantalla des del panell de l’organitzador.</p>
+<div class="teams" id="teams" hidden>
+<article id="team1"><span>POLSADOR 1</span><h2 id="name1"></h2><div class="mark" id="mark1"></div></article>
+<article id="team2"><span>POLSADOR 2</span><h2 id="name2"></h2><div class="mark" id="mark2"></div></article>
+</div>
+</main>
+<footer id="connection">Esperant connexió amb el panell…</footer>
+<script src="public.js?v=1"></script>
+</body>
+</html>
