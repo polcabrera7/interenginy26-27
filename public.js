@@ -1,6 +1,46 @@
 "use strict";
 const element = id => document.getElementById(id);
 let lastUpdate = 0;
+let historySignature = "";
+
+function renderHistory(items) {
+  if (!Array.isArray(items)) return;
+  const signature = JSON.stringify(items);
+  if (signature === historySignature) return;
+  historySignature = signature;
+  const container = element("history-list");
+  container.replaceChildren();
+  if (!items.length) {
+    container.textContent = "Encara no hi ha partides finalitzades.";
+    return;
+  }
+  [...items].reverse().forEach(item => {
+    if (!item || typeof item.title !== "string" ||
+        !Array.isArray(item.teams) || item.teams.length !== 2 ||
+        !item.teams.every(name => typeof name === "string") ||
+        !Array.isArray(item.rounds) || !item.rounds.every(n => n === 0 || n === 1)) return;
+    const card = document.createElement("div");
+    card.className = "history-item";
+    const heading = document.createElement("h3");
+    heading.textContent = item.title;
+    const teams = document.createElement("p");
+    teams.textContent = item.teams.join(" · ");
+    const list = document.createElement("ul");
+    if (!item.rounds.length) {
+      const empty = document.createElement("li");
+      empty.textContent = "Sense pulsacions registrades.";
+      list.append(empty);
+    }
+    item.rounds.forEach((winner, index) => {
+      const row = document.createElement("li");
+      row.textContent = "Ronda " + (index + 1) + ": " + item.teams[winner] + " ha premut primer";
+      list.append(row);
+    });
+    card.append(heading, teams, list);
+    container.append(card);
+  });
+}
+
 const messages = {
   idle: ["Esperant partida", "Tot a punt", "L’organitzador està preparant la pròxima partida."],
   ready: ["Partida preparada", "Prepareu-vos!", "La ronda encara no ha començat."],
@@ -21,6 +61,8 @@ window.addEventListener("message", event => {
       (data.state === "won" && ![0, 1].includes(data.winner))) return;
 
   lastUpdate = Date.now();
+  element("match-title").textContent = data.state === "idle" ? "" : (data.title || "");
+  renderHistory(data.history);
   const message = messages[data.state];
   element("phase").textContent = message[0];
   element("result").textContent = data.state === "won" ? data.teams[data.winner] : message[1];
