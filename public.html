@@ -24,11 +24,16 @@ h2{font-size:clamp(28px,4vw,60px);overflow-wrap:anywhere;margin:24px 0}
 footer{color:#999;font-size:14px;text-align:center}
 [hidden]{display:none!important}
 @media(max-width:600px){.teams{gap:12px}header{font-size:18px}article{padding:16px}}
+#history-section{border-top:1px solid #383a49;margin-top:30px;padding:20px 0}
+.history-item{border:1px solid #383a49;border-radius:12px;padding:20px;margin:12px 0;overflow-wrap:anywhere}
+.history-item h3{font-size:24px;margin:0 0 12px;color:#d5c4ff}
+.history-item p,.history-item li{font-size:18px;line-height:1.6}
 </style>
 </head>
 <body>
 <header><span>InterEnginy 26-27</span><button id="fullscreen">Pantalla completa</button></header>
 <main aria-live="polite">
+<p id="match-title" style="font-size:clamp(24px,3vw,40px);font-weight:bold;overflow-wrap:anywhere"></p>
 <p id="phase">Pantalla del públic</p>
 <h1 id="result">Esperant l’organitzador</h1>
 <p id="detail">Obre aquesta pantalla des del panell de l’organitzador.</p>
@@ -37,7 +42,11 @@ footer{color:#999;font-size:14px;text-align:center}
 <article id="team2"><span>POLSADOR 2</span><h2 id="name2"></h2><div class="mark" id="mark2"></div></article>
 </div>
 </main>
+<section id="history-section">
+<h2 style="font-size:28px">Partides finalitzades</h2>
+<div id="history-list"><p>Encara no hi ha partides finalitzades.</p></div>
+</section>
 <footer id="connection">Esperant connexió amb el panell…</footer>
-<script src="public.js?v=1"></script>
+<script src="public.js?v=historial-1"></script>
 </body>
 </html>
