@@ -9,7 +9,7 @@ let winner = null;
 
 const held = new Set();
 
-// Recuperar los equipos guardados en este navegador.
+// Recuperar els equips desats en aquest navegador.
 try {
   const saved = JSON.parse(
     localStorage.getItem("primero-teams") || "[]"
@@ -46,14 +46,14 @@ function refreshTeams() {
       const remove = document.createElement("button");
       remove.type = "button";
       remove.textContent = "Eliminar";
-      remove.setAttribute("aria-label", "Eliminar equipo " + name);
+      remove.setAttribute("aria-label", "Eliminar equip " + name);
       remove.style.padding = "6px 10px";
       remove.style.fontSize = "12px";
 
       remove.onclick = () => {
         if (state !== "idle") {
           $("error").textContent =
-            "Finaliza la partida antes de eliminar equipos.";
+            "Finalitza la partida abans dâ€™eliminar equips.";
           return;
         }
 
@@ -63,7 +63,7 @@ function refreshTeams() {
           localStorage.setItem("primero-teams", JSON.stringify(teams));
         } catch {
           $("storage").textContent =
-            "No se han podido guardar los cambios en este navegador.";
+            "No sâ€™han pogut desar els canvis en aquest navegador.";
         }
 
         $("error").textContent = "";
@@ -89,24 +89,24 @@ function refreshTeams() {
   validate();
 }
 
-// Registrar un equipo.
+// Registrar un equip.
 $("form").addEventListener("submit", event => {
   event.preventDefault();
 
   const name = $("name").value.trim().replace(/\s+/g, " ");
 
   if (!name) {
-    $("error").textContent = "Escribe un nombre.";
+    $("error").textContent = "Escriu un nom.";
     return;
   }
 
   const exists = teams.some(
-    team => team.toLocaleLowerCase("es") ===
-            name.toLocaleLowerCase("es")
+    team => team.toLocaleLowerCase("ca") ===
+            name.toLocaleLowerCase("ca")
   );
 
   if (exists) {
-    $("error").textContent = "Ese equipo ya está registrado.";
+    $("error").textContent = "Aquest equip ja estÃ  registrat.";
     return;
   }
 
@@ -116,7 +116,7 @@ $("form").addEventListener("submit", event => {
     localStorage.setItem("primero-teams", JSON.stringify(teams));
   } catch {
     $("storage").textContent =
-      "Los nombres solo se conservarán mientras esta página siga abierta.";
+      "Els noms nomÃ©s es conservaran mentre aquesta pÃ gina continuÃ¯ oberta.";
   }
 
   $("name").value = "";
@@ -127,7 +127,7 @@ $("form").addEventListener("submit", event => {
 $("left").onchange = validate;
 $("right").onchange = validate;
 
-// Actualizar la pantalla.
+// Actualitzar la pantalla.
 function render() {
   $("buzz1").disabled = state !== "armed";
   $("buzz2").disabled = state !== "armed";
@@ -139,40 +139,40 @@ function render() {
     state === "armed" || state === "waiting";
 
   const buttonTexts = {
-    ready: "Empezar partida",
-    won: "Nueva ronda",
-    paused: "Reanudar ronda",
-    waiting: "Suelta A y L…",
-    armed: "Ronda en juego"
+    ready: "ComenÃ§ar partida",
+    won: "Nova ronda",
+    paused: "Reprendre ronda",
+    waiting: "Deixeu anar A i Lâ€¦",
+    armed: "Ronda en joc"
   };
 
-  $("start").textContent = buttonTexts[state] || "Empezar partida";
+  $("start").textContent = buttonTexts[state] || "ComenÃ§ar partida";
 
   const messages = {
     ready: [
       "Partida preparada",
-      "Todo listo para empezar",
-      "Los pulsadores están bloqueados hasta empezar."
+      "Tot a punt per comenÃ§ar",
+      "Els polsadors estan bloquejats fins que comenci la partida."
     ],
     waiting: [
-      "Preparando ronda",
-      "Soltad los pulsadores",
-      "Suelta las teclas A y L para habilitar la ronda."
+      "Preparant la ronda",
+      "Deixeu anar els polsadors",
+      "Deixeu anar les tecles A i L per habilitar la ronda."
     ],
     armed: [
-      "Ronda en juego",
-      "¡Ahora!",
-      "Esperando la primera pulsación."
+      "Ronda en joc",
+      "Ara!",
+      "Esperant la primera pulsaciÃ³."
     ],
     won: [
-      "Primero en pulsar",
+      "Primer a prÃ©mer",
       match[winner] || "",
-      "Pulsadores bloqueados. Inicia otra ronda cuando quieras."
+      "Polsadors bloquejats. Inicia una altra ronda quan vulguis."
     ],
     paused: [
       "Ronda pausada",
-      "La página perdió el foco",
-      "Reanuda cuando ambos equipos estén preparados."
+      "La pÃ gina ha deixat dâ€™estar activa",
+      "ReprÃ¨n la ronda quan tots dos equips estiguin preparats."
     ]
   };
 
@@ -185,7 +185,7 @@ function render() {
   }
 }
 
-// Crear una partida entre los equipos seleccionados.
+// Crear una partida entre els equips seleccionats.
 $("create").onclick = () => {
   if ($("create").disabled) return;
 
@@ -203,7 +203,7 @@ $("create").onclick = () => {
   render();
 };
 
-// Esperar a que ambos jugadores suelten las teclas.
+// Esperar que tots dos jugadors deixin anar les tecles.
 function arm() {
   if (state !== "waiting") return;
 
@@ -222,7 +222,7 @@ $("start").onclick = () => {
   arm();
 };
 
-// Solo se acepta la primera pulsación de cada ronda.
+// NomÃ©s sâ€™accepta la primera pulsaciÃ³ de cada ronda.
 function buzz(team) {
   if (state !== "armed") return;
 
@@ -244,7 +244,7 @@ $("end").onclick = () => {
   $("placeholder").hidden = false;
 };
 
-// Simulación con las teclas A y L.
+// SimulaciÃ³ amb les tecles A i L.
 document.addEventListener("keydown", event => {
   if (!["KeyA", "KeyL"].includes(event.code)) return;
 
@@ -266,7 +266,7 @@ document.addEventListener("keyup", event => {
   arm();
 });
 
-// Pausar si se cambia de ventana durante una ronda.
+// Pausar si es canvia de finestra durant una ronda.
 window.addEventListener("blur", () => {
   held.clear();
 
