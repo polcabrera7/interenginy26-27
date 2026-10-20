@@ -29,8 +29,116 @@ footer{color:#999;font-size:14px;text-align:center}
 .history-item h3{font-size:24px;margin:0 0 12px;color:#d5c4ff}
 .history-item p,.history-item li{font-size:18px;line-height:1.6}
   html,
+/* Fons blau i textos blancs */
+:root {
+  color-scheme: light;
+}
+
+html,
 body {
   background: #0077C8;
+  color: #ffffff;
+}
+
+header {
+  color: #ffffff;
+  border-bottom: 1px solid #ffffff60;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+#match-title,
+#result,
+#detail,
+#connection,
+#history-section > h2 {
+  color: #ffffff;
+}
+
+#detail {
+  line-height: 1.6;
+}
+
+#phase {
+  color: #ffffff;
+  background: #00548f;
+  border: 1px solid #ffffff80;
+  border-radius: 30px;
+  padding: 10px 22px;
+  align-self: center;
+}
+
+/* Botó de pantalla completa */
+button {
+  background: #ffffff;
+  color: #00548f;
+  border: 1px solid #ffffff;
+  font-weight: 700;
+}
+
+button:hover {
+  background: #e5f2fc;
+}
+
+button:focus-visible {
+  outline: 3px solid #142c40;
+  outline-offset: 3px;
+}
+
+/* Targetes dels equips */
+.teams article {
+  background: #ffffff;
+  color: #142c40;
+  border: 3px solid #d5e3ee;
+  box-shadow: 0 12px 30px #00345430;
+}
+
+.teams article span {
+  color: #40576b;
+  font-weight: 700;
+}
+
+.teams article h2 {
+  color: #142c40;
+}
+
+/* Equip que ha premut primer */
+#team1.winner,
+#team2.winner {
+  background: #e2f6e9;
+  border-color: #16703b;
+  box-shadow: 0 0 0 5px #ffffff;
+}
+
+.mark {
+  color: #125c31;
+}
+
+/* Historial */
+#history-section {
+  border-top: 1px solid #ffffff60;
+}
+
+.history-item {
+  background: #ffffff;
+  color: #142c40;
+  border: 1px solid #d5e3ee;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px #00345425;
+}
+
+.history-item h3 {
+  color: #00548f;
+}
+
+.history-item p,
+.history-item li {
+  color: #304b60;
+}
+
+#connection {
+  margin-top: 20px;
+  font-size: 16px;
 }
 </style>
 </head>
