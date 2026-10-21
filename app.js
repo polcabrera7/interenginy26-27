@@ -243,7 +243,7 @@ function render() {
     ready: "Començar partida",
     won: "Nova ronda",
     paused: "Reprendre ronda",
-    waiting: "Deixeu anar A i L…",
+    waiting: "waiting: Deixeu anar els polsadors…",
     armed: "Ronda en joc"
   };
 
@@ -258,7 +258,7 @@ function render() {
     waiting: [
       "Preparant la ronda",
       "Deixeu anar els polsadors",
-      "Deixeu anar les tecles A i L per habilitar la ronda."
+      "Deixeu anar els polsadors per començar la ronda."
     ],
     armed: [
       "Ronda en joc",
