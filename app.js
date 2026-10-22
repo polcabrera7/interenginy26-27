@@ -321,6 +321,8 @@ function arm() {
 $("start").onclick = () => {
   if (!["ready", "won", "paused"].includes(state)) return;
 
+  prepararSo();
+
   winner = null;
   state = "waiting";
   arm();
@@ -333,6 +335,8 @@ function buzz(team) {
   winner = team;
   rounds.push(team);
   state = "won";
+
+  sonarPulsacio();
   render();
 }
 
@@ -398,3 +402,49 @@ window.addEventListener("blur", () => {
 refreshTeams();
 
 renderHistory();
+
+let audioContext = null;
+
+function prepararSo() {
+  try {
+    if (!audioContext) {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (!Audio) return;
+      audioContext = new Audio();
+    }
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume().catch(() => {});
+    }
+  } catch {
+    // La partida continua encara que l’àudio no estigui disponible.
+  }
+}
+
+function sonarPulsacio() {
+  if (!audioContext || audioContext.state !== "running") return;
+
+  const ara = audioContext.currentTime;
+  const nota = audioContext.createOscillator();
+  const volum = audioContext.createGain();
+
+  nota.type = "sine";
+  nota.frequency.setValueAtTime(880, ara);
+  nota.frequency.setValueAtTime(1175, ara + 0.12);
+
+  volum.gain.setValueAtTime(0, ara);
+  volum.gain.linearRampToValueAtTime(0.2, ara + 0.015);
+  volum.gain.setValueAtTime(0.2, ara + 0.20);
+  volum.gain.linearRampToValueAtTime(0, ara + 0.40);
+
+  nota.connect(volum);
+  volum.connect(audioContext.destination);
+
+  nota.start(ara);
+  nota.stop(ara + 0.42);
+
+  nota.onended = () => {
+    nota.disconnect();
+    volum.disconnect();
+  };
+}
