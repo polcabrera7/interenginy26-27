@@ -183,6 +183,19 @@ kbd {
 #teams button:hover:not(:disabled) {
   background: #ffdde1;
 }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+html,
+body,
+button,
+input,
+select,
+textarea,
+kbd {
+  font-family: "Open Sans", sans-serif;
+}
 </style></head><body><header><div class="logo">Inter-Enginy Challenge <span>2027</span></div><span class="badge">PANELL DE L’ORGANITZADOR</span></header><main><span class="eyebrow">Dos equips. Un sol torn.</span><h1>Pàgina de registre.</h1><p>Registra els equips i prepara la partida.</p><button id="open-public" type="button">Obrir pantalla del públic</button><p id="public-help" class="subtle">Obre-la abans de començar la ronda i mou-la al projector.</p><div class="layout"><aside class="panel"><h2>01 · Equips</h2><form id="form"><label for="name">Nom de l’equip</label><input id="name" placeholder=" " maxlength="40" autocomplete="off" required><button type="submit">+ Registrar equip</button></form><div id="error" class="error" role="alert"></div><ul id="teams"></ul><p id="empty" class="subtle">Afegeix com a mínim dos equips per crear una partida.</p><p class="subtle" id="storage">Els noms es desen en aquest navegador.</p></aside><section class="panel"><h2>02 · Partida</h2>
 <label for="match-title">Nom de la partida</label>
 <input id="match-title" maxlength="80" placeholder="Ex.: Semifinal 1">
