@@ -74,7 +74,7 @@ window.addEventListener("message", event => {
     element("team" + (index + 1)).classList.toggle("winner", won);
     element("mark" + (index + 1)).textContent = won ? "PRIMER!" : "";
   });
-  element("connection").textContent = "En directe · Mode de prova";
+  element("connection").textContent = "En directe";
 });
 
 function requestState() {
