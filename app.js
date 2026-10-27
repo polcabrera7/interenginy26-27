@@ -243,7 +243,7 @@ function render() {
     ready: "Començar partida",
     won: "Nova ronda",
     paused: "Reprendre ronda",
-    waiting: "waiting: Deixeu anar els polsadors…",
+    waiting: "Deixeu anar els polsadors…",
     armed: "Ronda en joc"
   };
 
