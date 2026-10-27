@@ -58,7 +58,7 @@ function renderHistory() {
     const detail = document.createElement("p");
     detail.className = "subtle";
     detail.textContent = item.rounds.length
-      ? item.rounds.map((winner, i) => "Ronda " + (i + 1) + ": " + item.teams[winner] + " guanya").join(" · ")
+      ? item.rounds.map((winner, i) => "Ronda " + (i + 1) + ": " + item.teams[winner] + " prem primer").join(" · ")
       : "Sense pulsacions registrades.";
     const remove = document.createElement("button");
 remove.type = "button";
