@@ -72,7 +72,7 @@ window.addEventListener("message", event => {
     const won = data.state === "won" && data.winner === index;
     element("name" + (index + 1)).textContent = data.teams[index] || "";
     element("team" + (index + 1)).classList.toggle("winner", won);
-    element("mark" + (index + 1)).textContent = won ? "PRIMER!" : "";
+    element("mark" + (index + 1)).textContent =   won ? "HA PREMUT PRIMER!" : "";
   });
   element("connection").textContent = "En directe";
 });
