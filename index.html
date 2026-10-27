@@ -1,5 +1,7 @@
 <!doctype html>
-<html lang="ca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inter-Enginy · Concurs de polsadors</title><style>
+<html lang="ca"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Inter-Enginy · Concurs de polsadors</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet"><style>
 :root{font-family:Inter,Segoe UI,Arial,sans-serif;color:#f3f4f7;background:#101116;color-scheme:dark}*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer;border:1px solid #383a44;border-radius:10px;padding:12px 18px;color:#f3f4f7;background:#282a34;font-weight:600}button:hover:not(:disabled){background:#373a47}button:disabled{opacity:.4;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #cab5ff;outline-offset:3px}.primary{background:#d5c4ff;color:#211334;border:0}.primary:hover:not(:disabled){background:#e5dbff}header{max-width:1160px;margin:auto;padding:30px 28px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2a2b35}.logo{font-size:24px;font-weight:800;letter-spacing:-1px}.logo span{color:#d5c4ff}.badge{font-size:12px;color:#d5c4ff;border:1px solid #514364;padding:8px 12px;border-radius:30px}main{max-width:1160px;margin:auto;padding:44px 28px}h1{font-size:clamp(30px,5vw,48px);letter-spacing:-1.5px;margin:10px 0 14px}p{color:#a9aab9;line-height:1.6}h2{font-size:19px;margin:0 0 22px}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;color:#c2abdF;font-weight:700}.layout{display:grid;grid-template-columns:320px 1fr;gap:24px;margin-top:36px}.panel{background:#191a22;border:1px solid #2c2d38;border-radius:18px;padding:24px}label{display:block;font-size:13px;color:#bfc0ce;margin-bottom:8px}input,select{width:100%;background:#101116;color:#f3f4f7;border:1px solid #3b3d4a;border-radius:9px;padding:13px;margin-bottom:12px}form button{width:100%}.subtle{font-size:12px;color:#9799ab}#teams{padding:0;list-style:none;margin:22px 0}#teams li{padding:12px 0;border-bottom:1px solid #2c2d38;overflow-wrap:anywhere;display:flex;gap:12px;align-items:center}#teams li:before{content:' ';width:7px;height:7px;background:#d5c4ff;border-radius:50%;flex-shrink:0}.selection{display:grid;grid-template-columns:1fr 1fr;gap:18px}#arena{margin-top:24px}.status{padding:24px 8px 28px;text-align:center}#result{font-size:clamp(24px,4vw,36px);font-weight:700;color:#f3f4f7;overflow-wrap:anywhere;margin:12px 0}#detail{font-size:14px;margin:0}.buzzers{display:grid;grid-template-columns:1fr 1fr;gap:18px}.team-card{border:1px solid #383a49;background:#14151c;border-radius:14px;padding:22px 14px;text-align:center;min-width:0}.team-name{display:block;overflow-wrap:anywhere;font-size:20px;font-weight:700;margin:12px 0}.orb{width:62px;height:62px;border-radius:50%;margin:20px auto;background:#363847;border:8px solid #252733}.team-card.winner.one{border-color:#fb917d;background:#30211f}.team-card.winner.two{border-color:#85baff;background:#1d2837}.winner.one .orb{background:#fb917d;border-color:#683f37}.winner.two .orb{background:#85baff;border-color:#344b6b}kbd{background:#333540;border:1px solid #4c4e5c;border-radius:5px;padding:3px 8px;font-size:12px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}.actions .primary{flex:1}.error{color:#ffb29e;font-size:13px;min-height:20px}footer{margin-top:25px;font-size:12px;color:#9092a3} [hidden]{display:none!important}@media(max-width:760px){header{padding:22px 18px}main{padding:28px 18px}.layout{grid-template-columns:1fr}.panel{padding:20px}.badge{font-size:10px}.selection{gap:12px}.team-card button{padding:10px 8px;font-size:13px}}
 html,
 /* Fons i textos generals */
@@ -183,9 +185,6 @@ kbd {
 #teams button:hover:not(:disabled) {
   background: #ffdde1;
 }
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 html,
 body,
@@ -196,7 +195,521 @@ textarea,
 kbd {
   font-family: "Open Sans", sans-serif;
 }
-</style></head><body><header><div class="logo">Inter-Enginy Challenge <span>2027</span></div><span class="badge">PANELL DE L’ORGANITZADOR</span></header><main><span class="eyebrow">Dos equips. Un sol torn.</span><h1>Pàgina de registre.</h1><p>Registra els equips i prepara la partida.</p><button id="open-public" type="button">Obrir pantalla del públic</button><p id="public-help" class="subtle">Obre-la abans de començar la ronda i mou-la al projector.</p><div class="layout"><aside class="panel"><h2>01 · Equips</h2><form id="form"><label for="name">Nom de l’equip</label><input id="name" placeholder=" " maxlength="40" autocomplete="off" required><button type="submit">+ Registrar equip</button></form><div id="error" class="error" role="alert"></div><ul id="teams"></ul><p id="empty" class="subtle">Afegeix com a mínim dos equips per crear una partida.</p><p class="subtle" id="storage">Els noms es desen en aquest navegador.</p></aside><section class="panel"><h2>02 · Partida</h2>
+
+/* ESTIL GENERAL */
+:root {
+  color-scheme: light;
+  font-family: "Open Sans", sans-serif;
+  background: #0077c8;
+}
+
+html,
+body {
+  background: #0077c8;
+  color: #fff;
+}
+
+body,
+button,
+input,
+select,
+textarea,
+kbd {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  line-height: 1.55;
+}
+
+button,
+input,
+select {
+  min-height: 46px;
+  border-radius: 12px;
+}
+
+button {
+  font-weight: 700;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #ffcf66;
+  outline-offset: 4px;
+}
+
+button:disabled {
+  background: #e5ebf0;
+  color: #52616e;
+  border-color: #c4d0da;
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+header {
+  gap: 18px;
+  border-bottom: 1px solid #ffffff50;
+}
+
+.logo,
+.logo span {
+  color: #fff;
+  letter-spacing: -0.6px;
+}
+
+.badge {
+  padding: 9px 14px;
+  background: #00548f;
+  color: #fff;
+  border: 1px solid #ffffff70;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* PANELL DE L’ORGANITZADOR */
+.organitzador header,
+.organitzador main {
+  max-width: 1240px;
+}
+
+.organitzador main {
+  padding-top: 32px;
+}
+
+.organitzador h1 {
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.organitzador .layout {
+  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.panel {
+  background: #fff;
+  color: #142c40;
+  border: 1px solid #d8e5ee;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 14px 36px #00345426;
+  min-width: 0;
+}
+
+.panel h2 {
+  color: #142c40;
+  font-weight: 800;
+  margin-bottom: 22px;
+}
+
+.panel label {
+  color: #304b60;
+  font-weight: 700;
+}
+
+.panel p,
+.panel .subtle {
+  color: #40576b;
+}
+
+input,
+select {
+  background: #f4f8fb;
+  color: #142c40;
+  border: 1px solid #8da5b8;
+  padding: 13px 14px;
+}
+
+input::placeholder {
+  color: #526779;
+}
+
+button.primary,
+#form button,
+#mqtt-connect {
+  background: #00548f;
+  color: #fff;
+  border: 1px solid #00548f;
+}
+
+button.primary:hover:not(:disabled),
+#form button:hover:not(:disabled),
+#mqtt-connect:hover:not(:disabled) {
+  background: #003e6b;
+}
+
+#open-public {
+  background: #fff;
+  color: #004b80;
+  border: 1px solid #fff;
+  box-shadow: 0 6px 18px #00345425;
+}
+
+#open-public:hover {
+  background: #edf6fc;
+}
+
+#start {
+  min-height: 54px;
+  font-size: 17px;
+}
+
+#end {
+  background: #fff;
+  color: #52616e;
+  border: 1px solid #8da5b8;
+}
+
+#end:hover {
+  background: #eef3f7;
+}
+
+#teams li {
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom-color: #dce7ef;
+}
+
+#teams button,
+#history-admin button {
+  min-height: 36px;
+  background: #fff2f3;
+  color: #9c2130;
+  border: 1px solid #cf98a0;
+  font-size: 13px;
+}
+
+#teams button:hover,
+#history-admin button:hover {
+  background: #ffe0e4;
+}
+
+.organitzador .status {
+  padding: 22px 0 28px;
+}
+
+.organitzador #result {
+  font-size: clamp(26px, 3vw, 38px);
+  font-weight: 800;
+  color: #142c40;
+}
+
+#phase {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 999px;
+  line-height: 1.4;
+  letter-spacing: 1.2px;
+}
+
+.organitzador #phase {
+  background: #e9f3fb;
+  color: #00548f;
+}
+
+#placeholder {
+  display: none;
+}
+
+.organitzador > .panel {
+  width: calc(100% - 56px);
+}
+
+/* TARGETES DELS EQUIPS */
+.buzzers,
+.public .teams {
+  gap: 24px;
+}
+
+.team-card,
+.public .teams article {
+  position: relative;
+  background: #fff;
+  color: #142c40;
+  border: 2px solid #d5e3ee;
+  border-top: 7px solid var(--equip-color);
+  border-radius: 22px;
+  box-shadow: 0 8px 24px #00345418;
+  transition:
+    transform 220ms ease,
+    background 220ms ease,
+    box-shadow 220ms ease;
+}
+
+#card1,
+#team1 {
+  --equip-color: #c55a11;
+}
+
+#card2,
+#team2 {
+  --equip-color: #00548f;
+}
+
+.team-card > .subtle,
+.public .teams article > span {
+  display: inline-block;
+  color: var(--equip-color);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.team-name,
+.public .teams article h2 {
+  color: #142c40;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  line-height: 1.2;
+}
+
+.team-card .orb {
+  width: 72px;
+  height: 72px;
+  background: var(--equip-color);
+  border: 9px solid #e8eff4;
+  box-shadow: 0 5px 12px #142c4020;
+}
+
+#buzz1,
+#buzz2 {
+  width: 100%;
+  margin-top: 8px;
+}
+
+#buzz1:not(:disabled),
+#buzz2:not(:disabled) {
+  background: var(--equip-color);
+  color: #fff;
+  border-color: var(--equip-color);
+}
+
+/* PRIMERA PULSACIÓ */
+#card1.winner,
+#card2.winner,
+#team1.winner,
+#team2.winner {
+  --equip-color: #16703b;
+  background: #e8f7ed;
+  border-color: #16703b;
+  box-shadow: 0 0 0 4px #b9e5c8, 0 14px 32px #00345428;
+  transform: translateY(-4px);
+  animation: celebrar 450ms ease-out;
+}
+
+.winner.one .orb,
+.winner.two .orb {
+  background: #16703b;
+  border-color: #b9e5c8;
+}
+
+.buzzers:has(.winner) .team-card:not(.winner),
+.public .teams:has(.winner) article:not(.winner) {
+  background: #eaf0f5;
+  box-shadow: none;
+}
+
+.mark {
+  color: #125c31;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+@keyframes celebrar {
+  0% { transform: translateY(0) scale(1); }
+  55% { transform: translateY(-5px) scale(1.025); }
+  100% { transform: translateY(-4px) scale(1); }
+}
+
+/* HISTORIAL */
+#history-admin,
+#history-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+
+#history-admin > div,
+.public .history-item {
+  margin: 0;
+  padding: 20px;
+  background: #f4f8fb;
+  color: #142c40;
+  border: 1px solid #d5e3ee;
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+#history-admin label {
+  overflow-wrap: anywhere;
+}
+
+.public .history-item h3 {
+  color: #00548f;
+  font-size: 21px;
+}
+
+.public .history-item p,
+.public .history-item li {
+  color: #40576b;
+  font-size: 15px;
+}
+
+.public .history-item ul {
+  padding-left: 20px;
+}
+
+.panel .error {
+  color: #a51c30;
+}
+
+/* PANTALLA DEL PÚBLIC */
+body.public {
+  padding: clamp(18px, 3vw, 44px);
+}
+
+.public header {
+  padding-bottom: 20px;
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 800;
+  color: #fff;
+}
+
+.public main {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 28px 0;
+}
+
+.public #match-title {
+  margin: 0 0 18px;
+  line-height: 1.25;
+}
+
+.public #match-title:empty {
+  display: none;
+}
+
+.public #phase {
+  background: #00548f;
+  color: #fff;
+  border: 1px solid #ffffff70;
+  font-size: clamp(13px, 1.4vw, 19px);
+  margin: 0;
+}
+
+.public #result {
+  color: #fff;
+  font-size: clamp(34px, 5vw, 76px);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -1px;
+  margin: 22px 0 12px;
+}
+
+.public #detail {
+  color: #fff;
+  font-size: clamp(16px, 1.8vw, 24px);
+  margin: 0 0 12px;
+}
+
+.public .teams article {
+  padding: clamp(24px, 4vw, 56px) 24px;
+}
+
+.public .teams article h2 {
+  font-size: clamp(30px, 4vw, 64px);
+  margin: 24px 0;
+}
+
+.public .mark {
+  font-size: clamp(16px, 2vw, 28px);
+  min-height: 1.6em;
+}
+
+.public #history-section {
+  width: 100%;
+  max-width: 1440px;
+  margin: 20px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #ffffff50;
+}
+
+.public #history-section > h2 {
+  color: #fff;
+  margin: 0 0 18px;
+}
+
+#history-list > p {
+  color: #fff;
+}
+
+.public #connection {
+  color: #fff;
+  font-size: 13px;
+  margin-top: 24px;
+}
+
+#fullscreen {
+  font-size: 14px;
+}
+
+/* MÒBILS I ACCESSIBILITAT */
+@media (max-width: 760px) {
+  .organitzador .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 20px;
+  }
+
+  .organitzador > .panel {
+    width: calc(100% - 36px);
+  }
+}
+
+@media (max-width: 520px) {
+  .selection,
+  .buzzers,
+  .public .teams {
+    grid-template-columns: 1fr;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .public .teams article {
+    padding: 24px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style></head><body class="organitzador"><header><div class="logo">Inter-Enginy Challenge <span>2027</span></div><span class="badge">PANELL DE L’ORGANITZADOR</span></header><main><span class="eyebrow">Dos equips. Un sol torn.</span><h1>Pàgina de registre.</h1><p>Registra els equips i prepara la partida.</p><button id="open-public" type="button">Obrir pantalla del públic</button><p id="public-help" class="subtle">Obre-la abans de començar la ronda i mou-la al projector.</p><div class="layout"><aside class="panel"><h2>01 · Equips</h2><form id="form"><label for="name">Nom de l’equip</label><input id="name" placeholder=" " maxlength="40" autocomplete="off" required><button type="submit">+ Registrar equip</button></form><div id="error" class="error" role="alert"></div><ul id="teams"></ul><p id="empty" class="subtle">Afegeix com a mínim dos equips per crear una partida.</p><p class="subtle" id="storage">Els noms es desen en aquest navegador.</p></aside><section class="panel"><h2>02 · Partida</h2>
 <label for="match-title">Nom de la partida</label>
 <input id="match-title" maxlength="80" placeholder="Ex.: Semifinal 1">
 <p class="subtle">Pots canviar el nom abans o durant la partida.</p><div id="setup"><div class="selection"><div><label for="left">Polsador 1 </label><select id="left" aria-label="Equip del polsador 1"></select></div><div><label for="right">Polsador 2 </label><select id="right" aria-label="Equip del polsador 2"></select></div></div><button class="primary" id="create">Crear partida</button><p class="subtle">Cada equip ha de tenir un polsador diferent.</p></div><div id="arena" hidden><div class="status" role="status" aria-live="polite"><span class="eyebrow" id="phase">Partida preparada</span><div id="result">Tot a punt per començar</div><p id="detail">Els polsadors estan bloquejats fins que comenci la partida.</p></div><div class="buzzers"><div id="card1" class="team-card one"><span class="subtle">POLSADOR 1</span><strong id="name1" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz1">Simular pulsació <kbd>A</kbd></button></div><div id="card2" class="team-card two"><span class="subtle">POLSADOR 2</span><strong id="name2" class="team-name"></strong><div class="orb" aria-hidden="true"></div><button id="buzz2">Simular pulsació <kbd>L</kbd></button></div></div><div class="actions"><button id="start" class="primary">Començar partida</button><button id="end">Finalitzar partida</button></div></div><div id="placeholder" class="status"><div class="orb" aria-hidden="true"></div><p> </p></div></section></div><section class="panel" style="margin-top:24px">
