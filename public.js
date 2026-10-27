@@ -46,7 +46,7 @@ const messages = {
   ready: ["Partida preparada", "Prepareu-vos!", "La ronda encara no ha començat."],
   waiting: ["Preparant la ronda", "Deixeu anar els polsadors", "Esperant per començar."],
   armed: ["Ronda en joc", "Ara!", "Qui serà el primer a prémer?"],
-  won: ["Primer a prémer", "", "Pulsació registrada. Esperant la pròxima ronda."],
+  won: ["Primer a prémer", "", "Esperant la pròxima ronda."],
   paused: ["Ronda pausada", "Un moment…", "L’organitzador reprendrà la ronda."]
 };
 
